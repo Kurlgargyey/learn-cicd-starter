@@ -25,7 +25,13 @@ type apiConfig struct {
 var staticFiles embed.FS
 
 func main() {
-	err := godotenv.Load(".env")
+	_, err := staticFiles.Open("static/index.html")
+	if err != nil {
+		log.Printf("Warning: cannot access embedded index.html: %v", err)
+	} else {
+		log.Printf("Successfully verified access to embedded index.html")
+	}
+	err = godotenv.Load(".env")
 	if err != nil {
 		log.Printf("warning: assuming default configuration. .env unreadable: %v", err)
 	}
